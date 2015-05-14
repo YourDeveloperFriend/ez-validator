@@ -53,9 +53,16 @@ export default class Converter {
         key = rename;
         rename = false;
       }
-      if(!data[key] && info.default) data[key] = info.default;
-      data[name] = await converter.call(context, data[key], key, info, data);
-      if(rename && !info.keepOriginal) delete data[key];
+      if(!data[key]) {
+        if(info.default) {
+          data[key] = info.default;
+        }
+      } else {
+        data[name] = await converter.call(context, data[key], key, info, data);
+        if(rename && !info.keepOriginal) {
+          delete data[key];
+        }
+      }
     }
   }
   getConverter(type) {

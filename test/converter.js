@@ -54,6 +54,21 @@ describe('Converter', function() {
       data.should.have.property('b', 3);
       data.should.have.property('a', '3');
     });
+    it('should not add a field that isn\'t there', async function() {
+      let data = {};
+      await converter.convertField({
+        type: 'int'
+      }, 'a', data);
+      data.should.not.have.property('a');
+    });
+    it('should add a default', async function() {
+      let data = {};
+      await converter.convertField({
+        type: 'int',
+        default: 5
+      }, 'a', data);
+      data.should.have.property('a', 5);
+    });
   });
   describe('validating multiple', function() {
     it('should remove unallowed variables', async function() {
