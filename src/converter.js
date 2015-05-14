@@ -27,7 +27,7 @@ export default class Converter {
     this.conversions = conversions || {};
   }
   convertCtrl(ctrl) {
-    return convertData(ctrl.routeDetails.data, ctrl);
+    return this.convertData(ctrl.routeDetails.data, ctrl);
   }
   async convertData(data, context) {
     var iterators = _.map(data, (info, key)=> {
