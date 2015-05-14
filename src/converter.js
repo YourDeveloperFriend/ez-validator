@@ -27,10 +27,10 @@ export default class Converter {
     this.conversions = conversions || {};
   }
   convertCtrl(ctrl) {
-    return this.convertData(ctrl.routeDetails.data, ctrl);
+    return this.convertData(ctrl.routeDetails.data, ctrl.data, ctrl);
   }
-  async convertData(data, context) {
-    var iterators = _.map(data, (info, key)=> {
+  async convertData(convertInfo, data, context) {
+    var iterators = _.map(convertInfo, (info, key)=> {
       return this.convertField(info, key, data, context);
     });
     for(let iter of iterators) {
@@ -41,8 +41,8 @@ export default class Converter {
   async convertField(info, key, data, context) {
     let converter;
     if(info.type && (converter = this.getConverter(info.type))) {
-      var name = info.rename || key;
-      var rename = info.rename;
+      let rename = info.rename;
+      let name = rename || key;
       if(rename && context && context.usedArgs) {
         key = rename;
         rename = false;

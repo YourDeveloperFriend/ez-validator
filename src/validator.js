@@ -58,8 +58,8 @@ export default class Validator {
   constructor(validations) {
     this.validations = _.extend({}, Validations, validations);
   }
-  async validateData(context) {
-    var errors = await this.validateObject(context.routeDetails.data, context.data, context);
+  async validateCtrl(ctrl) {
+    let errors = await this.validateObject(ctrl.routeDetails.data, ctrl.data, ctrl);
     if(errors) {
       throw new ValidationError(errors);
     }
