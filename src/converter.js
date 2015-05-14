@@ -17,7 +17,6 @@ let Conversions = {
     return new Date(value);
   },
   array(value) {
-    console.log('converting', value);
     return _.isArray(value) ? value : void 0;
   }
 }
@@ -36,6 +35,13 @@ export default class Converter {
     for(let iter of iterators) {
       await iter;
     }
+    let allowedFields = _.reduce(convertInfo, (allowed, info, key)=> {
+      allowed.push(info.rename || key);
+      if(info.rename && info.keepOriginal) allowed.push(key);
+      return allowed;
+    }, []);
+    let unallowedFields = _.difference(Object.keys(data), allowedFields);
+    unallowedFields.forEach( (field)=> delete data[field] );
     return data;
   }
   async convertField(info, key, data, context) {

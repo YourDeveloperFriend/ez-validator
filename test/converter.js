@@ -55,6 +55,20 @@ describe('Converter', function() {
       data.should.have.property('a', '3');
     });
   });
+  describe('validating multiple', function() {
+    it('should remove unallowed variables', async function() {
+      let converter = new Converter();
+      let data = {
+        allowed: 5,
+        notAllowed: 3
+      };
+      await converter.convertData({
+        allowed: {type: 'int'}
+      }, data);
+      data.should.have.property('allowed');
+      data.should.not.have.property('notAllowed');
+    });
+  });
   describe('custom validation', function() {
     it('should be able to use custom validation', async function() {
       let converter = new Converter({
